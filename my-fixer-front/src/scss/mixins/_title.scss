@@ -1,0 +1,10 @@
+//@import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
+
+@mixin title {
+  font-family: "Exo 2", "Roboto";
+  color: #002396;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 40px;
+}

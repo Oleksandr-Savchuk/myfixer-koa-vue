@@ -1,0 +1,38 @@
+@mixin input {
+  &:not([type="checkbox"]) {
+    width: 100%;
+  }
+
+  box-sizing: border-box;
+  height: 40px;
+  padding-left: 10px;
+  background: #fcfcfc;
+  border: 2px solid #f2f2f2;
+  box-shadow: none;
+  &:focus {
+    outline: none;
+    border-left: 2px solid #2a74db;
+  }
+  &::placeholder {
+    color: #8790a7;
+    font-family: "Roboto";
+  }
+
+  &[type="checkbox"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border: 2px solid #f2f2f2;
+    border-radius: 2px;
+
+    &:checked {
+      background: url("~@/assets/img/check.png") center center no-repeat !important;
+    }
+
+    &:not(:placeholder-shown) {
+      border: 2px solid #f2f2f2 !important;
+    }
+  }
+}
