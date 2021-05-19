@@ -1,0 +1,3 @@
+START TRANSACTION;
+  drop table "user" CASCADE;
+COMMIT;

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="jquery-3.6.0.min.js"></script>
+
+    <style>
+      output {
+        display: block;
+        width: 100%;
+        height: 600px;
+        border: 1px solid black;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" onclick="create()">create</button>
+
+    <button type="button" onclick="signIn()">sign in</button>
+
+    <button type="button" onclick="read()">read</button>
+
+    <button type="button" onclick="update()">update</button>
+
+    <button type="button" onclick="del()">delete</button>
+
+    <output id="resp"> </output>
+
+    <script>
+      var user = {
+        categoryId: 1,
+        countryId: 1,
+        fname: "kuku",
+        lname: "uio",
+        username: "qaz",
+      };
+
+      var token = "";
+      var email = "";
+      var pass = "";
+
+      function signIn() {
+        $("#resp").val("executing http://localhost:3001/user/sign-in");
+
+        $.ajax("http://localhost:3001/user/sign-in", {
+          method: "post",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({
+            email: email,
+            password: pass,
+          }),
+        })
+          .done((a) => {
+            token = a.accessToken;
+            $("#resp").val("sign in >>" + JSON.stringify(a));
+          })
+          .catch((a) => {
+            $("#resp").val("error >>" + JSON.stringify(a));
+          });
+      }
+
+      function create() {
+        $("#resp").val("executing http://localhost:3001/user/");
+
+        email = Date.now() + "@asd.asd";
+        pass = "b59c67bf196a4758191e42f76670ceba";
+
+        user.email = email;
+        user.password = pass;
+
+        $.ajax("http://localhost:3001/user/", {
+          method: "post",
+          data: user,
+        })
+          .done((a) => {
+            user.id = a.id;
+            $("#resp").val("create result >>" + JSON.stringify(a));
+          })
+          .catch((a) => {
+            $("#resp").val("error >>" + JSON.stringify(a));
+          });
+      }
+
+      function read() {
+        $("#resp").val("executing http://localhost:3001/user/" + user.id);
+
+        $.ajax("http://localhost:3001/user/" + user.id, {
+          method: "get",
+          headers: { Authorization: `jwt ${token}` },
+        })
+          .done((a) => {
+            $("#resp").val("read result >>" + JSON.stringify(a));
+          })
+          .catch((a) => {
+            $("#resp").val("error >>" + JSON.stringify(a));
+          });
+      }
+
+      function del() {
+        $("#resp").val(
+          "executing delete http://localhost:3001/user/" + user.id
+        );
+
+        $.ajax("http://localhost:3001/user/" + user.id, {
+          method: "delete",
+          headers: { Authorization: `jwt ${token}` },
+        })
+          .done((a) => {
+            $("#resp").val("del result >>" + JSON.stringify(a));
+          })
+          .catch((a) => {
+            $("#resp").val("error >>" + JSON.stringify(a));
+          });
+      }
+
+      function update() {
+        user.fname = "updateFname";
+
+        $("#resp").val("executing put http://localhost:3001/user/" + user.id);
+
+        $.ajax("http://localhost:3001/user/" + user.id, {
+          method: "put",
+          headers: { Authorization: `jwt ${token}` },
+          data: user,
+        })
+          .done((a) => {
+            $("#resp").val("update result >>" + JSON.stringify(a));
+          })
+          .catch((a) => {
+            $("#resp").val("error >>" + JSON.stringify(a));
+          });
+      }
+
+      //    $.ajax('http://localhost:3001/user/1', {method: 'get', headers: {'Authorization': `jwt ${token}`}})
+      //    .done((a) => {console.log(a)}).error((a) => {console.log(a)})
+
+      //     $.ajax('http://localhost:3001/token/refresh', {method: 'post', data: {accessToken: token}})
+      //    .done((a) => {console.log(a)}).error((a) => {console.log(a)})
+
+      //    $.ajax('http://localhost:3001/user/1', {method: 'put', headers: {'Authorization': `jwt ${token}`}, data: user})
+      //    .done((a) => {user = a; console.log(a)}).error((a) => {console.log(a)})
+
+      //   $.ajax('http://localhost:3001/user/', {method: 'post', data: {categoryId: 1, countryId: 1, email: "111@asd.asd", fname: "kuku", id: 1, lname: "uio", password: "b59c67bf196a4758191e42f76670ceba", username: "qaz"}}).done((a) => {user = a; console.log(a)}).error((a) => {console.log(a)})
+
+      //    $.ajax('http://localhost:3001/user/1', {method: 'delete', headers: {'Authorization': `jwt ${token}`}})
+      //    .done((a) => {console.log(a)}).error((a) => {console.log(a)})
+    </script>
+  </body>
+</html>
