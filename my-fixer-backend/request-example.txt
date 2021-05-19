@@ -1,0 +1,24 @@
+$.ajax('http://localhost:3001/user/sign-in', {
+    method: 'post',
+    contentType:"application/json; charset=utf-8",
+    dataType:"json",
+    data: JSON.stringify({
+        email: 'asd@asd.asd',
+        password: '1111'
+    })
+ }).done((a) => {console.log(a)}).error((a) => {console.log(a)})
+
+
+ $.ajax('http://localhost:3001/user/1', {method: 'get', headers: {'Authorization': `jwt ${token}`}})
+ .done((a) => {console.log(a)}).error((a) => {console.log(a)})
+
+  $.ajax('http://localhost:3001/token/refresh', {method: 'post', data: {accessToken: token}})
+ .done((a) => {console.log(a)}).error((a) => {console.log(a)})
+
+ $.ajax('http://localhost:3001/user/1', {method: 'put', headers: {'Authorization': `jwt ${token}`}, data: user})
+ .done((a) => {user = a; console.log(a)}).error((a) => {console.log(a)})
+
+$.ajax('http://localhost:3001/user/', {method: 'post', data: {categoryId: 1, countryId: 1, email: "111@asd.asd", fname: "kuku", id: 1, lname: "uio", password: "b59c67bf196a4758191e42f76670ceba", username: "qaz"}}).done((a) => {user = a; console.log(a)}).error((a) => {console.log(a)})
+
+ $.ajax('http://localhost:3001/user/1', {method: 'delete', headers: {'Authorization': `jwt ${token}`}})
+ .done((a) => {console.log(a)}).error((a) => {console.log(a)})
